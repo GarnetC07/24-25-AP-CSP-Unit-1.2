@@ -10,10 +10,10 @@ spot_shape = "circle"
 score = 0
 
 def update_score_for_box(x,y):
-  global score
-  score += 1
-  score1.clear()
-  score1.write(score, font=font_setup)
+    global score
+    score += 1
+    score1.clear()
+    score1.write(score, font=font_setup)
 
 #-----initialize turtle-----
 spot = trtl.Turtle()
