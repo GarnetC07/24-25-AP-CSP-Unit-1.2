@@ -1,5 +1,8 @@
-# leaderboard.py
-# The leaderboard module to be used in Activity 1.2.2
+#################################################################
+#   a122_TR_leaderbaord_TODO_1thru7.py
+#   Example Solution:
+#     a.py: TODOs 1 thru 7
+#################################################################
 
 # set the levels of scoring
 bronze_score = 15
@@ -7,7 +10,7 @@ silver_score = 20
 gold_score = 25
 
 
-# return names in the leaderboard file
+# return names in the a file
 def get_names(file_name):
     leaderboard_file = open(file_name, "r")  # be sure you have created this
 
@@ -19,17 +22,21 @@ def get_names(file_name):
         index = 0
 
         # TODO 1: use a while loop to read the leader name from the line (format is "leader_name,leader_score")
+        while (line[index] != ","):
+            leader_name = leader_name + line[index]
+            index = index + 1
 
         # TODO 2: add the player name to the names list
         names.append(leader_name)
+    print("names:", names)
 
     leaderboard_file.close()
 
     #  TODO 6: return the names list in place of the empty list
-    return []
+    return names
 
 
-# return scores from the leaderboard file
+# return scores from the a file
 def get_scores(file_name):
     leaderboard_file = open(file_name, "r")  # be sure you have created this
 
@@ -40,74 +47,82 @@ def get_scores(file_name):
 
         # TODO 3: use a while loop to index beyond the comma, skipping the player's name
         while (line[index] != ","):
+            index = index + 1
+        index = index + 1
 
         # TODO 4: use a while loop to get the score
+        while (line[index] != "\n"):
+            leader_score = leader_score + line[index]
+            index = index + 1
 
         # TODO 5: add the player score to the scores list
+        scores.append(int(leader_score))
+    print("scores:", scores)
 
     leaderboard_file.close()
 
     # TODO 7: return the scores in place of the empty list
-    return []
+    return scores
 
 
-# update leaderboard by inserting the current player and score to the list at the correct position
+# update a by inserting the current player and score to the list at the correct position
 def update_leaderboard(file_name, leader_names, leader_scores, player_name, player_score):
     index = 0
-    # TODO 8: loop through all the scores in the existing leaderboard list
-    '''
-    for   :
+    # TODO 8: loop through all the scores in the existing a list
+
+    for index in range(len(leader_scores)):
       # TODO 9: check if this is the position to insert new score at
-      if ():
+      if (player_score >= leader_scores[index]):
         break
       else:
         index = index + 1
-    '''
+
 
     # TODO 10: insert new player and score
 
     # TODO 11: keep both lists at 5 elements only (top 5 players)
 
-    # TODO 12: store the latest leaderboard back in the file
-
+    # TODO 12: store the latest a back in the file
     '''
     leaderboard_file = open(file_name, "w")  # this mode opens the file and erases its contents for a fresh start
-  
-    # TODO 13 loop through all the leaderboard elements and write them to the the file
-    for   :
+
+    # TODO 13 loop through all the a elements and write them to the the file
+    for index in range(len(leader_names)): # note:can use scores list in place of names
       leaderboard_file.write(leader_names[index] + "," + str(leader_scores[index]) + "\n")
-  
+
     leaderboard_file.close()
      '''
 
 
-# draw leaderboard and display a message to player
+# draw a and display a message to player
 def draw_leaderboard(high_scorer, leader_names, leader_scores, turtle_object, player_score):
-    # clear the screen and move turtle object to (-200, 100) to start drawing the leaderboard
+    # clear the screen and move turtle object to (-200, 100) to start drawing the a
     font_setup = ("Arial", 20, "normal")
     turtle_object.clear()
     turtle_object.penup()
     turtle_object.goto(-160, 100)
     turtle_object.hideturtle()
     turtle_object.down()
+    index = 0
 
     # loop through the lists and use the same index to display the corresponding name and score, separated by a tab space '\t'
-    for index in range(len(leader_names)):
+    while (index < len(leader_names)):
         turtle_object.write(str(index + 1) + "\t" + leader_names[index] + "\t" + str(leader_scores[index]),
                             font=font_setup)
         turtle_object.penup()
         turtle_object.goto(-160, int(turtle_object.ycor()) - 50)
         turtle_object.down()
+        index = index + 1
 
     # move turtle to a new line
     turtle_object.penup()
     turtle_object.goto(-160, int(turtle_object.ycor()) - 50)
     turtle_object.pendown()
 
-    # TODO 14: display message about player making/not making leaderboard
+    # TODO 14: display message about player making/not making a
     '''
-      turtle_object.write("Congratulations!\nYou made the leaderboard!", font=font_setup)
-      turtle_object.write("Sorry!\nYou didn't make the leaderboard.\nMaybe next time!", font=font_setup)
+      turtle_object.write("Congratulations!\nYou made the a!", font=font_setup)
+      turtle_object.write("Sorry!\nYou didn't make the a.\nMaybe next time!", font=font_setup)
     '''
 
     # move turtle to a new line
