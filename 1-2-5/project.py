@@ -7,13 +7,15 @@ wn = trtl.Screen()
 painter.screen.bgcolor('black')
 painter.speed('fastest')
 
-painter.color('white')
-painter.hideturtle()
-painter.penup()
-painter.goto(0,400 )
-painter.pendown()
-painter.right(90)
-painter.forward(30)
+def middle_lines():
+    painter.color('white')
+    painter.hideturtle()
+    painter.penup()
+    painter.setpos(0,500 )
+    painter.pendown()
+    painter.pensize(20)
+    painter.right(90)
+    painter.forward(30)
 
 
 
