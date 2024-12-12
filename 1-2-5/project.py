@@ -17,17 +17,28 @@ def middle_lines():
     painter.setpos(0,300 )
     painter.setheading(270)
     painter.pensize(5)
-
-for _ in range (30):
+    for middle_lines in range (30):
         painter.pendown()
         painter.forward(10)
         painter.penup()
         painter.forward(10)
+middle_lines()
 
+#This is for the first paddle that's used in the game just to create it
+paddle_a = trtl.Turtle()
+paddle_a.speed('fastest')
+paddle_a.color('white')
+paddle_a.shapesize(stretch_wid = 6, stretch_len = 1)
+paddle_a.penup()
+paddle_a.goto(-450,0)
 
-
-
-
+#This is for the second paddle that's used in the game just to create it
+paddle_b = trtl.Turtle()
+paddle_b.speed('fastest')
+paddle_b.color('white')
+paddle_b.shapesize(stretch_wid = 6, stretch_len = 1)
+paddle_b.penup()
+paddle_b.goto(450,0)
 
 
 
