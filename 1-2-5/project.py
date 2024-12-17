@@ -1,14 +1,14 @@
 import turtle as trtl
 import random as rand
 
-# Variable creation and named them all
+# Screen setup
+screen = trtl.Screen()
+screen.title("Pong Game")
+screen.bgcolor("black")
+screen.setup(width=1000, height=600)
 painter = trtl.Turtle()
-wn = trtl.Screen()
-wn.title("Pong Game")
-wn.setup(width = 1000, height = 600)
-painter.screen.bgcolor('black')
 
-# This is for the creation of the middle lines of the ping game which show which side its on
+# Painter for middle line
 def middle_lines():
     painter.color('white')
     painter.hideturtle()
@@ -23,111 +23,110 @@ def middle_lines():
         painter.forward(10)
 middle_lines()
 
-# This is for the first paddle that's used in the game just to create it
-paddle_a = trtl.Turtle()
-paddle_a.speed('fastest')
-paddle_a.color('white')
-paddle_a.shapesize(stretch_wid = 6, stretch_len = 1)
-paddle_a.penup()
-paddle_a.goto(-450,0)
-paddle_a.left(180)
+# Left Paddle Setup
+left_paddle = trtl.Turtle()
+left_paddle.color("white")
+left_paddle.shapesize(stretch_wid=6, stretch_len=1)
+left_paddle.penup()
+left_paddle.goto(-450, 0)
+left_paddle.right(180)
 
-# This is for the second paddle that's used in the game just to create it
-paddle_b = trtl.Turtle()
-paddle_b.speed('fastest')
-paddle_b.color('white')
-paddle_b.shapesize(stretch_wid = 6, stretch_len = 1)
-paddle_b.penup()
-paddle_b.goto(450,0)
+# Right Paddle Setup
+right_paddle = trtl.Turtle()
+right_paddle.color("white")
+right_paddle.shapesize(stretch_wid=6, stretch_len=1)
+right_paddle.penup()
+right_paddle.goto(450, 0)
 
-# Creation of ball and used dx and dy which when I looked it up said that dx and dy are the amount of change over a specific amount of time
+# Ball Setup and gives the ball a random speed on x and y as well as starts it off always in the middle
 ball = trtl.Turtle()
-ball_speed_x = 20
-ball_speed_y = 20
-ball.speed('fastest')
-ball.shape('circle')
-ball.color('white')
+ball.shape("circle")
+ball.color("white")
 ball.penup()
 ball.goto(0, 0)
-ball.dx = rand.choice([1,-1]) * 0.2 #this is the balls randomized x direction
-ball.dy = rand.choice([1,-1]) * 0.2 #this is balls randomized y direction
+ball.x_direction = rand.choice([1, -1]) * 2
+ball.y_direction = rand.choice([1, -1]) * 2
 
-# Score
-score_a = 0
-score_b = 0
+# Set score to start at 0
+left_score = 0
+right_score = 0
 
-# Score display
+# Score font and display
 score_display = trtl.Turtle()
 score_display.color("white")
 score_display.penup()
 score_display.hideturtle()
 score_display.goto(0, 260)
-score_display.write("Player A: 0  Player B: 0", align="center", font=("Arial", 24, "bold"))
+score_display.write("Left Player: 0  Right Player: 0", align="center", font=("Arial", 24, "bold"))
 
-# Paddle movement
-def paddle_a_up():
-    y = paddle_a.ycor()
+# for moving and locking paddle to the screen as well as how far it moves per key press
+def move_left_paddle_up():
+    y = left_paddle.ycor()
     if y < 250:
-        paddle_a.sety(y + 20)
+        left_paddle.sety(y + 30)
 
-def paddle_a_down():
-    y = paddle_a.ycor()
+def move_left_paddle_down():
+    y = left_paddle.ycor()
     if y > -250:
-        paddle_a.sety(y - 20)
+        left_paddle.sety(y - 30)
 
-def paddle_b_up():
-    y = paddle_b.ycor()
+def move_right_paddle_up():
+    y = right_paddle.ycor()
     if y < 250:
-        paddle_b.sety(y + 20)
+        right_paddle.sety(y + 30)
 
-def paddle_b_down():
-    y = paddle_b.ycor()
+def move_right_paddle_down():
+    y = right_paddle.ycor()
     if y > -250:
-        paddle_b.sety(y - 20)
-# this locks the paddle within the range of the window so it cant go offscreen
+        right_paddle.sety(y - 30)
 
-# Keyboard readings and functions for moving the paddle
-wn.listen()
-wn.onkeypress(paddle_a_up, "w")
-wn.onkeypress(paddle_a_down, "s")
-wn.onkeypress(paddle_b_up, "Up")
-wn.onkeypress(paddle_b_down, "Down")
+# Key movement to move left and right paddle
+screen.listen()
+screen.onkeypress(move_left_paddle_up, "w")
+screen.onkeypress(move_left_paddle_down, "s")
+screen.onkeypress(move_right_paddle_up, "Up")
+screen.onkeypress(move_right_paddle_down, "Down")
 
-# Updating the scoreboard
+# Updates the score being shown
 def update_score():
     score_display.clear()
-    score_display.write(f"Player A: {score_a}  Player B: {score_b}", align="center", font=("Arial", 24, "bold"))
+    score_display.write(f"Left Player: {left_score}  Right Player: {right_score}", align="center", font=("Arial", 24, "bold"))
 
-#Main game coding
+# Main Game Loop
 while True:
-    wn.update()
+    screen.update()
+
     # Move the ball
-    ball.setx(ball.xcor() + ball.dx)
-    ball.sety(ball.ycor() + ball.dy)
-    # Bounce off the top and bottom walls
+    ball.setx(ball.xcor() + ball.x_direction)
+    ball.sety(ball.ycor() + ball.y_direction)
+
+    # Bounce off top and bottom walls of the screen
     if ball.ycor() > 290 or ball.ycor() < -290:
-        ball.dy *= -1
-    # Left paddle collision
-    if (-440 < ball.xcor() < -430) and (paddle_a.ycor() - 50 < ball.ycor() < paddle_a.ycor() + 50):
-        ball.dx *= -1
-    # Right paddle collision
-    if (430 < ball.xcor() < 440) and (paddle_b.ycor() - 50 < ball.ycor() < paddle_b.ycor() + 50):
-        ball.dx *= -1
-    # Ball goes out on the left
+        ball.y_direction = -ball.y_direction
+
+    # Left Paddle bounce the ball
+    if (-440 < ball.xcor() < -430) and (left_paddle.ycor() - 50 < ball.ycor() < left_paddle.ycor() + 50):
+        ball.x_direction = -ball.x_direction
+
+    # Right paddle bounce the ball
+    if (430 < ball.xcor() < 440) and (right_paddle.ycor() - 50 < ball.ycor() < right_paddle.ycor() + 50):
+        ball.x_direction = -ball.x_direction
+
+    # If the ball goes out then it starts in middle and goes in random direction whilst updating score
     if ball.xcor() < -500:
-        score_b += 1
+        right_score += 1
         update_score()
         ball.goto(0, 0)
-        ball.dx *= -1
-    # Ball goes out on the right
+        ball.x_direction = rand.choice([1, -1]) * 4
+        ball.y_direction = rand.choice([1, -1]) * 4
+
+    # Ball goes out on the right resets it in middle and updates the score
     if ball.xcor() > 500:
-        score_a += 1
+        left_score += 1
         update_score()
         ball.goto(0, 0)
-        ball.dx *= -1
-
-
-
+        ball.x_direction = rand.choice([1, -1]) * 4
+        ball.y_direction = rand.choice([1, -1]) * 4
 
 wn.listen()
 wn.mainloop()
